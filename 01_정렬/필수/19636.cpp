@@ -26,11 +26,11 @@ int main() {
 		// 기초대사량 고려o
 		energy_consumption = bmr + a;
 		expected_weight_bmr += (i - energy_consumption);
-		if (expected_weight_bmr <= 0 || bmr <= 0) {
-			state_bmr = "Danger Diet";
-		}
 		if (abs(i - energy_consumption) > t) {
 			bmr += floor((i - energy_consumption) / 2.0);
+		}
+		if (expected_weight_bmr <= 0 || bmr <= 0) {
+			state_bmr = "Danger Diet";
 		}
 	}
 
