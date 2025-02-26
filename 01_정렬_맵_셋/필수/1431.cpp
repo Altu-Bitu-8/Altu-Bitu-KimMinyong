@@ -18,12 +18,10 @@ bool comp(string& a, string& b) {
 	if (a.length() != b.length()) {
 		return (a.length() < b.length());
 	}
-	else if (shiftToNum(a) != shiftToNum(b)) {
+	if (shiftToNum(a) != shiftToNum(b)) {
 		return (shiftToNum(a) < shiftToNum(b));
 	}
-	else {
-		return (a < b);
-	}
+	return (a < b);
 }
 
 int main() {

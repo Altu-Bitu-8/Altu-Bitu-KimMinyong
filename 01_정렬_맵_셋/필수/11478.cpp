@@ -17,10 +17,10 @@ int main() {
 	}
 
 	int sum = 0;
-	for (auto iter = s.begin(); iter != s.end(); iter++) {
-		sum++;
-	}
+	//for (auto iter = s.begin(); iter != s.end(); iter++) {
+	//	sum++;
+	//}
 
-	cout << sum;
+	cout << s.size();
 	return 0;
 }
