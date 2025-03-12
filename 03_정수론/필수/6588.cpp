@@ -21,6 +21,14 @@ vector<bool> isPrime() {
 	return is_prime;
 }
 
+int findPrime(vector<bool>& is_prime, int n) {
+	for (int i = 3; i <= n / 2; i += 2) {       // 배열에서 소수만 탐색: a=3부터 홀수만
+		if (is_prime[i] && is_prime[n - i]) {  // a + b = n이 되는 두 수가 모두 소수라면
+			return i;
+		}
+	}
+}
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -31,22 +39,18 @@ int main() {
 	while (true) {
 		int n;
 		cin >> n;
-		if (n == 0) break;
-
-		int a = 0, b = 0;
-
-		for (int i = 0; i < is_prime.size(); i++) {
-			if (is_prime[i] && is_prime[n - i]) {  // a + b = n이 되는 두 수가 모두 소수라면
-				a = i;
-				b = n - i;
-				break;
-			}
+		if (n == 0) {
+			break;
 		}
 
-		if (a == 0 && b == 0) {
+		int a = 0, b = 0;
+		a = findPrime(is_prime, n);
+
+		if (a == 0) {
 			cout << "Goldbach's conjecture is wrong." << '\n';
 		}
 		else {
+			b = n - a;
 			cout << n << " = " << a << " + " << b << '\n';
 		}
 	}

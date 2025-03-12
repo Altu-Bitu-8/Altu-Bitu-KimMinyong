@@ -20,15 +20,9 @@ int main() {
 
 	cin >> a;
 	location[0] = abs(s - a);
-	if (n == 1) {
-		gcd = location[0];
-	}
-	else {
-		cin >> a;
-		location[1] = abs(s - a);
-		gcd = getGcd(location[0], location[1]);
-
-		for (int i = 2; i < n; i++) {
+	gcd = location[0];
+	if (n > 1) {   // 코드 중복되지 않도록 수정
+		for (int i = 1; i < n; i++) {
 			cin >> a;
 			location[i] = abs(s - a);
 			gcd = getGcd(gcd, location[i]);
