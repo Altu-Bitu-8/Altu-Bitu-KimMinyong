@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void moveChess(string move, char& alp, int& num) {
+void moveChess(const string move, char& alp, int& num) {
 	if (move == "R") {
 		if (alp < 'H') {
 			alp++;

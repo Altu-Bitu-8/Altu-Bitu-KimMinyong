@@ -41,11 +41,7 @@ void setOperations(string input) {
 	}
 
 	else if (input == "all") {
-		for (int i = 0; i < 20; i++) {
-			if (!(s & (1 << i))) {
-				s += 1 << i;
-			}
-		}
+		s = (1 << 20) - 1;
 	}
 
 	else if (input == "empty") {
