@@ -6,18 +6,18 @@
 using namespace std;
 
 struct cmp {
-	bool operator() (tuple<int, int, int>& parent, tuple<int, int, int>& child) {
-		if (get<0>(parent) == get<0>(child)) {
-			if (get<1>(parent) == get<1>(child)) {
-				return get<2>(parent) > get<2>(child);
-			}
-			else {
-				return get<1>(parent) < get<1>(child);
-			}
-		}
-		else {
-			return get<0>(parent) < get<0>(child);
-		}
+	bool operator() (const tuple<int, int, int, int>& a, const tuple<int, int, int, int>& b) {
+		// 근무일수 d 내림차순
+		if (get<0>(a) != get<0>(b))
+			return get<0>(a) < get<0>(b);
+		// 급한 정도 h 내림차순
+		if (get<1>(a) != get<1>(b))
+			return get<1>(a) < get<1>(b);
+		// 줄 번호 오름차순
+		if (get<2>(a) != get<2>(b))
+			return get<2>(a) > get<2>(b);
+		// 원래 인덱스 오름차순
+		return get<3>(a) > get<3>(b);
 	}
 };
 
@@ -26,8 +26,8 @@ int main() {
 	int d, h;
 	int cnt = 0, line;
 
-	priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, cmp> pq;
-	vector<tuple<int, int, int>> workers;
+	priority_queue<tuple<int, int, int, int>, vector<tuple<int, int, int, int>>, cmp> pq;
+	vector<tuple<int, int, int, int>> workers;
 
 	// 입력
 	cin >> n >> m >> k;
@@ -36,7 +36,7 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		cin >> d >> h;
 		line = i % m;
-		workers.push_back({ d, h, line });  // 사원 정보를 벡터에 추가
+		workers.push_back({ d, h, line, i });  // 사원 정보를 벡터에 추가
 	}
 
 	for (int i = 0; i < workers.size(); i++) {
@@ -48,11 +48,11 @@ int main() {
 	vector<int> next(m, 1);
 
 	while (true) {
-		tuple<int, int, int> employee;
+		tuple<int, int, int, int> employee;
 		employee = pq.top();
 		pq.pop();  // 화장실 이용
 
-		if (employee == workers[k]) {  // pop한 사원이 데카일 경우 break
+		if (get<3>(employee) == k) {  // pop한 사원이 데카일 경우 break
 			break;
 		}
 		cnt++;
