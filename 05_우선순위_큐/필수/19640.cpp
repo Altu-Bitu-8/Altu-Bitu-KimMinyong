@@ -5,8 +5,10 @@
 
 using namespace std;
 
+typedef tuple<int, int, int, int> ti;
+
 struct cmp {
-	bool operator() (const tuple<int, int, int, int>& a, const tuple<int, int, int, int>& b) {
+	bool operator() (const ti& a, const ti& b) {
 		// 근무일수 d 내림차순
 		if (get<0>(a) != get<0>(b))
 			return get<0>(a) < get<0>(b);
@@ -26,8 +28,8 @@ int main() {
 	int d, h;
 	int cnt = 0, line;
 
-	priority_queue<tuple<int, int, int, int>, vector<tuple<int, int, int, int>>, cmp> pq;
-	vector<tuple<int, int, int, int>> workers;
+	priority_queue<ti, vector<ti>, cmp> pq;
+	vector<ti> workers;
 
 	// 입력
 	cin >> n >> m >> k;
@@ -39,16 +41,14 @@ int main() {
 		workers.push_back({ d, h, line, i });  // 사원 정보를 벡터에 추가
 	}
 
-	for (int i = 0; i < workers.size(); i++) {
-		if (i / m == 0) {
-			pq.push(workers[i]);  // 선두들을 우선순위 큐에 추가
-		}
+	for (int i = 0; i < m && i < workers.size(); i++) {
+		pq.push(workers[i]);  // 선두들을 우선순위 큐에 추가
 	}
 
 	vector<int> next(m, 1);
 
 	while (true) {
-		tuple<int, int, int, int> employee;
+		ti employee;
 		employee = pq.top();
 		pq.pop();  // 화장실 이용
 

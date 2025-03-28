@@ -4,33 +4,25 @@
 
 using namespace std;
 
-int main() {
-	int n, cnt = 0;
-	char word[11], new_word[11];
-	vector<int> letters(26, 0);
+#define SIZE 11
 
-	// 입력
-	cin >> n;
-	cin >> word;
-
+void recordFrequency(char* word, vector<int>& letters) {
 	for (int i = 0; i < strlen(word); i++) {  // 벡터에 각 알파벳의 등장 횟수 기록
-		int flag = word[i] - 65;
+		int flag = word[i] - 'A';
 		letters[flag]++;
 	}
+}
 
-	// 연산
-	n--;
-	while (n--) {
+int findSimilarWord(int n, char* new_word, char* word, vector<int> letters) {
+	int cnt = 0;
+	while (--n) {
 		cin >> new_word;
 
 		bool isSame = true;
 		bool isSimilar = true;
 		vector<int> new_letters(26, 0);
 
-		for (int i = 0; i < strlen(new_word); i++) {  // 벡터에 각 알파벳의 등장 횟수 기록
-			int flag = new_word[i] - 65;
-			new_letters[flag]++;
-		}
+		recordFrequency(new_word, new_letters);
 
 		for (int i = 0; i < letters.size(); i++) {
 			if (letters[i] != new_letters[i]) {
@@ -69,6 +61,23 @@ int main() {
 			}
 		}
 	}
+	return cnt;
+}
+
+int main() {
+	int n, cnt = 0;
+	char word[SIZE], new_word[SIZE];
+	vector<int> letters(26, 0);
+
+	// 입력
+	cin >> n;
+	cin >> word;
+
+	recordFrequency(word, letters);
+
+	// 연산
+	cnt = findSimilarWord(n, new_word, word, letters);
+
 	// 출력
 	cout << cnt << "\n";
 	return 0;

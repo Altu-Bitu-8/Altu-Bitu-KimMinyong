@@ -14,13 +14,11 @@ int main() {
 	cin >> n;
 
 	// 연산
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cin >> x;
-			table.push(x);
-			if (i > 0) {
-				table.pop();  // 가장 작은 수 pop
-			}
+	for (int i = 0; i < n * n; i++) {
+		cin >> x;
+		table.push(x);
+		if (table.size() > n && i > 0) {
+			table.pop();  // 가장 작은 수 pop
 		}
 	}
 
