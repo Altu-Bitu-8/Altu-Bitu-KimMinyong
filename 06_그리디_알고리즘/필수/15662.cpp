@@ -19,17 +19,18 @@ void counterclockwise(vector<bool>& wheel, int num) {
 	wheel[num * 8 + 7] = tmp;
 }
 
-void rotate(int direction, vector<bool>& wheel, int num) {
-	if (direction == 1) {  // 시계 방향 회전
+void rotate(vector<int> wheelDir, vector<bool>& wheel, int num) {
+	if (wheelDir[num] == 1) {  // 시계 방향 회전
 		clockwise(wheel, num);
 	}
-	else {  // 반시계 방향 회전
+	else if (wheelDir[num] == -1) {  // 반시계 방향 회전
 		counterclockwise(wheel, num);
 	}
 }
 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(NULL);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
 	int t, k;
 
@@ -55,36 +56,31 @@ int main() {
 		cin >> num >> direction;
 		num--;
 
-		int temp_num = num;
+		vector<int> wheelDir(t, 0);  // 톱니바퀴마다 회전 방향 저장
+		wheelDir[num] = direction;
 
-		rotate(direction, wheel, num);
-		direction *= (-1);
-		int temp_direction = direction;
-
-		// 회전시킨 톱니바퀴 오른쪽으로 가면서 확인
-		while (num < t - 1) {
-			if (wheel[num * 8 + 2] == wheel[(num + 1) * 8 + 6]) {
+		// 회전시킨 톱니바퀴 오른쪽으로 가면서 저장
+		for (int i = num; i < t - 1; i++) {
+			if (wheel[i * 8 + 2] == wheel[(i + 1) * 8 + 6]) {
 				break;
 			}
 			else {
-				rotate(direction, wheel, num + 1);
-				direction *= (-1);
-				num++;
+				wheelDir[i + 1] = -wheelDir[i];
 			}
 		}
 
-		num = temp_num;
-		direction = temp_direction;
-		// 회전시킨 톱니바퀴 왼쪽으로 가면서 확인
-		while (num > 0) {
-			if (wheel[num * 8 + 6] == wheel[(num - 1) * 8 + 2]) {
+		// 회전시킨 톱니바퀴 왼쪽으로 가면서 저장
+		for (int i = num; i > 0; i--) {
+			if (wheel[(i - 1) * 8 + 2] == wheel[i * 8 + 6]) {
 				break;
 			}
 			else {
-				rotate(direction, wheel, num - 1);
-				direction *= (-1);
-				num--;
+				wheelDir[i - 1] = -wheelDir[i];
 			}
+		}
+
+		for (int i = 0; i < t; i++) {
+			rotate(wheelDir, wheel, i);
 		}
 	}
 
