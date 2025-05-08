@@ -26,6 +26,7 @@ void backtracking(int idx, int n, int cost, int curr, vector<vector<int>>& w, ve
 
 		// 사용
 		int new_cost = cost + w[curr][next];
+		if (new_cost >= answer) continue;
 		is_visited[next] = true;
 
 		// 연산
