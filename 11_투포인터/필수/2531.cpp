@@ -4,30 +4,29 @@
 
 using namespace std;
 
-int getMaxType(int N, int k, vector<int>& sushi, vector<int>& ans) {
+int getMaxType(int N, int d, int k, int c, vector<int>& sushi, vector<int>& ans) {
 	int cnt_types = 0;
-	vector<int> tmp = ans;
 
 	for (int i = 0; i < k; i++) {
-		if (find(ans.begin(), ans.end(), sushi[i]) != ans.end()) {
-			continue;
+		if (ans[sushi[i]]++ == 0) {
+			cnt_types++;
 		}
-		ans.push_back(sushi[i]);
 	}
 
-	cnt_types = ans.size();
+	int max_types = cnt_types + (ans[c] == 0 ? 1 : 0);
 
-	int max_types = cnt_types;
-
-	for (int i = k; i < N; i++) {
-		if (find(ans.begin(), ans.end(), sushi[i]) != ans.end()) {
-			continue;
+	for (int i = k; i < N + k; i++) {
+		if (--ans[sushi[(i - k) % N]] == 0) {
+			cnt_types--;
 		}
-		remove(ans.begin(), ans.end(), sushi[i - k]);
-		ans.push_back(sushi[i]);
+		if (ans[sushi[i % N]]++ == 0) {
+			cnt_types++;
+		}
 
-		if (ans.size() > max_types) {
-			max_types = ans.size();
+		int temp = cnt_types + (ans[c] == 0 ? 1 : 0);
+
+		if (temp > max_types) {
+			max_types = temp;
 		}
 	}
 
@@ -35,17 +34,21 @@ int getMaxType(int N, int k, vector<int>& sushi, vector<int>& ans) {
 }
 
 int main() {
-	int N, d, k, c;
-	cin >> N >> d >> k >> c;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
+	int N, d, k, c;
+
+	// 입력
+	cin >> N >> d >> k >> c;
 	vector<int> sushi(N);
 	for (int i = 0; i < N; i++) {
 		cin >> sushi[i];
 	}
 
-	vector<int> answer;
-	answer.push_back(c);
+	vector<int> ans(d + 1, 0);
 
-	cout << getMaxType(N, k, sushi, answer);
+	// 연산 & 출력
+	cout << getMaxType(N, d, k, c, sushi, ans);
 	return 0;
 }
